@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  netconfig-api-dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/.venv
+    environment:
+      - ENVIRONMENT=development
+    container_name: netconfig-api-dev
+
+  netconfig-api-prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8001:8000"
+    environment:
+      - ENVIRONMENT=production
+    container_name: netconfig-api-prod
+
+  test:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - /app/.venv
+    command: poetry run pytest
+    container_name: netconfig-api-test
